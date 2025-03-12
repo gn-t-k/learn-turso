@@ -1,0 +1,24 @@
+{
+	"name": "learn-turso",
+	"private": true,
+	"packageManager": "pnpm@9.0.0",
+	"engines": {
+		"node": ">=18"
+	},
+	"scripts": {
+		"build": "turbo build",
+		"generate": "turbo generate",
+		"check": "pnpm run biome:check && turbo check",
+		"check:fix": "pnpm run biome:check --fix && turbo check:fix",
+		"biome:check": "biome check . --config-path=biome.jsonc",
+		"dev": "turbo dev",
+		"storybook": "turbo storybook",
+		"clean": "turbo run clean && rm -rf node_modules .turbo && pnpm store prune"
+	},
+	"dependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@tsconfig/strictest": "^2.0.5",
+		"turbo": "^2.4.4",
+		"typescript": "^5.8.2"
+	}
+}

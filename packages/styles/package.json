@@ -1,0 +1,16 @@
+{
+	"name": "@packages/styles",
+	"type": "module",
+	"private": true,
+	"style": "tailwind.css",
+	"files": ["tailwind.css"],
+	"scripts": {
+		"check": "echo \"Nothing to check in @packages/styles\"",
+		"clean": "rm -rf node_modules",
+		"generate": "echo \"Nothing to generate in @packages/styles\""
+	},
+	"dependencies": {
+		"tailwindcss": "^4.0.0",
+		"tailwindcss-animate": "^1.0.7"
+	}
+}

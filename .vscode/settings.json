@@ -24,5 +24,6 @@
 		"source.organizeImports.biome": "explicit"
 	},
 	"editor.tabSize": 4,
-	"cSpell.words": ["isbot", "libsql", "turso"]
+	"editor.detectIndentation": false,
+	"cSpell.words": ["isbot", "libsql", "shadcn", "turso"]
 }

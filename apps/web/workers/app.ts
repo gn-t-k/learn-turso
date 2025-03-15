@@ -1,17 +1,26 @@
-import { createClient, databaseProvider } from "@packages/database";
+import { databaseProvider } from "@packages/database";
 import { Hono } from "hono";
 import { createRequestHandler } from "react-router";
+import invariant from "tiny-invariant";
 
-// biome-ignore lint/style/useNamingConvention: hono
-// biome-ignore lint/correctness/noUndeclaredVariables: <worker-configuration.d.ts
-const app = new Hono<{ Bindings: Env }>();
+const tursoDatabaseUrl = process.env["TURSO_DATABASE_URL"];
+invariant(
+	tursoDatabaseUrl,
+	"環境変数`TURSO_DATABASE_URL`が設定されていません。",
+);
 
-app.use((c, next) => {
-	const databaseClient = createClient({
-		url: c.env.TURSO_DATABASE_URL,
-		authToken: c.env.TURSO_AUTH_TOKEN,
-	});
-	return databaseProvider(databaseClient, next);
+const tursoAuthToken = process.env["TURSO_AUTH_TOKEN"];
+
+const app = new Hono();
+
+app.use((_c, next) => {
+	return databaseProvider(
+		{
+			url: tursoDatabaseUrl,
+			...(tursoAuthToken !== undefined ? { authToken: tursoAuthToken } : {}),
+		},
+		next,
+	);
 });
 
 app.use(async (c) => {

@@ -24,7 +24,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
 
 const Page: FC<Route.ComponentProps> = () => {
 	return (
-		<main className="h-screen grid place-items-center p-8">
+		<main className="grid h-screen place-items-center p-8">
 			<Card className="w-sm min-w-xs">
 				<CardHeader>
 					<CardTitle>Login</CardTitle>

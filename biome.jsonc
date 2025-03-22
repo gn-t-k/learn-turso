@@ -9,9 +9,18 @@
 	"files": {
 		"ignoreUnknown": false,
 		"ignore": [
-			// "apps/web/.react-router/*",
-			// "apps/web2/.react-router/*",
-			// "apps/web2/.worker-configuration.d.ts"
+			// 自動生成されるファイルのため無視
+			".turbo",
+			// 自動生成されるファイルのため無視
+			"apps/web/.react-router",
+			// 自動生成されるファイルのため無視
+			"apps/web/.wrangler",
+			// 自動生成されるファイルのため無視
+			"apps/web/worker-configuration.d.ts",
+			// 自動生成されるファイルのため無視
+			"packages/database/migrations/meta/*",
+			// 自動生成されるファイルのため無視
+			"packages/react-components/generated"
 		]
 	},
 	"formatter": {
@@ -42,6 +51,9 @@
 			},
 			"complexity": {
 				"useLiteralKeys": "off"
+			},
+			"nursery": {
+				"useSortedClasses": "warn"
 			}
 		}
 	}

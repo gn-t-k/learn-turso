@@ -22,14 +22,13 @@ const Layout: FC<Route.ComponentProps> = ({ loaderData }) => {
 			<header className="sticky top-0 z-10 grid grid-flow-col grid-cols-[1fr_auto] bg-white p-4 shadow-md">
 				<span className="font-bold text-xl">TODO app</span>
 				<Avatar>
-					<AvatarImage
-						src="https://lh3.googleusercontent.com/a/ACg8ocJqz0u4caP_jMqQxIFHVCfPBxorIhmMfczZfAYpgHKUk12KMLc=s96-c"
+					<AvatarImage src={user?.imageUrl} alt={user?.name} />
+					{/* <img
+						src={user?.imageUrl}
 						alt={user?.name}
-						onError={(event) => {
-							console.log({ event });
-						}}
-					/>
-					<AvatarFallback delayMs={0}>{user?.name}</AvatarFallback>
+						className="aspect-square size-full"
+					/> */}
+					<AvatarFallback>{user?.name}</AvatarFallback>
 				</Avatar>
 			</header>
 			<Outlet />

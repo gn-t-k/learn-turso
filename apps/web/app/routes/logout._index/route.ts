@@ -1,5 +1,5 @@
 import { href, redirect } from "react-router";
-import { redirectToSearchParams } from "../auth.google.callback/redirect-manager";
+import { redirectToSearchParams } from "../auth.google.callback/redirect-manager.server";
 import { destroySession } from "../auth.google/user-session-manager.server";
 import type { Route } from "./+types/route";
 

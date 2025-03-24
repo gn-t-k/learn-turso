@@ -1,6 +1,5 @@
 import type { FC } from "react";
 import { Link, href } from "react-router";
-import { redirectToSearchParams } from "../auth.google.callback/redirect-manager";
 import { getSessionUser } from "../auth.google/user-session-manager.server";
 import type { Route } from "./+types/route";
 import { findUser } from "./find-user.server";
@@ -20,7 +19,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 const Page: FC<Route.ComponentProps> = ({ loaderData }) => {
 	const { user, isOwnPage } = loaderData;
 	const params = new URLSearchParams({
-		[redirectToSearchParams]: href("/users/:userId", { userId: user.id }),
+		redirect_to: href("/users/:userId", { userId: user.id }),
 	}).toString();
 
 	return (

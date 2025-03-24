@@ -11,7 +11,7 @@ import { Form, data, href } from "react-router";
 import {
 	redirectToSearchParams,
 	setRedirectTo,
-} from "../auth.google.callback/redirect-manager";
+} from "../auth.google.callback/redirect-manager.server";
 import type { Route } from "./+types/route";
 
 export const loader = async ({ request }: Route.LoaderArgs) => {

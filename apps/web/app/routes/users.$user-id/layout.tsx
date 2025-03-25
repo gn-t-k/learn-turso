@@ -22,7 +22,7 @@ const Layout: FC<Route.ComponentProps> = ({ loaderData }) => {
 			<header className="sticky top-0 z-10 grid grid-flow-col grid-cols-[1fr_auto] bg-white p-4 shadow-md">
 				<span className="font-bold text-xl">TODO app</span>
 				<Avatar>
-					<AvatarImage src="" alt={user?.name} />
+					<AvatarImage src={user?.imageUrl} alt={user?.name} />
 					<AvatarFallback>{user?.name}</AvatarFallback>
 				</Avatar>
 			</header>

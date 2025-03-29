@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { Link, href } from "react-router";
+import { href } from "react-router";
 import { getSessionUser } from "../auth.google/user-session-manager.server";
 import type { Route } from "./+types/route";
 import { findUser } from "./find-user.server";
@@ -26,10 +26,6 @@ const Page: FC<Route.ComponentProps> = ({ loaderData }) => {
 		<main>
 			<h1>{user.name}</h1>
 			<p>ID: {user.id}</p>
-			<Link to={href("/users/:userId/tasks", { userId: user.id })}>
-				タスク一覧
-			</Link>
-			{isOwnPage && <Link to={`${href("/logout")}?${params}`}>ログアウト</Link>}
 		</main>
 	);
 };

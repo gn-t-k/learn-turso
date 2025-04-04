@@ -1,5 +1,6 @@
+import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
-import type { FC } from "react";
+import type { ComponentProps, FC } from "react";
 import {
 	Button as AriaButton,
 	type ButtonProps as AriaButtonProps,
@@ -7,26 +8,30 @@ import {
 } from "react-aria-components";
 import { cn } from "../../utilities/cn";
 
-export type ButtonProps = AriaButtonProps & VariantProps<typeof buttonVariants>;
+export type ButtonProps = VariantProps<typeof buttonVariants> &
+	(
+		| ({ asChild: true } & ComponentProps<typeof Slot>)
+		| ({ asChild?: false } & AriaButtonProps)
+	);
 
-export const Button: FC<ButtonProps> = ({
-	className,
-	variant,
-	size,
-	...props
-}) => {
+export const Button: FC<ButtonProps> = (props) => {
+	if (props.asChild === true) {
+		const { variant, size, className, ...rest } = props;
+		return (
+			<Slot
+				className={cn(buttonVariants({ variant, size, className }))}
+				{...rest}
+			/>
+		);
+	}
+
+	const { variant, size, className, ...rest } = props;
 	return (
 		<AriaButton
 			className={composeRenderProps(className, (className) =>
-				cn(
-					buttonVariants({
-						variant,
-						size,
-						className,
-					}),
-				),
+				cn(buttonVariants({ variant, size, className })),
 			)}
-			{...props}
+			{...rest}
 		/>
 	);
 };

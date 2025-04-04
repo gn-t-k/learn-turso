@@ -18,7 +18,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 
 const Page: FC<Route.ComponentProps> = ({ loaderData }) => {
 	const { user, isOwnPage } = loaderData;
-	const params = new URLSearchParams({
+	const _params = new URLSearchParams({
 		redirect_to: href("/users/:userId", { userId: user.id }),
 	}).toString();
 

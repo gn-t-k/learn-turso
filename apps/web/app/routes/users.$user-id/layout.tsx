@@ -6,10 +6,10 @@ import {
 	Popover,
 	PopoverDialog,
 	PopoverTrigger,
-	buttonVariants,
+	TextLink,
 } from "@packages/react-components";
 import type { FC } from "react";
-import { Form, Link, Outlet, href } from "react-router";
+import { Link, Outlet, href } from "react-router";
 import { getSessionUser } from "../auth.google/user-session-manager.server";
 import type { Route } from "./+types/layout";
 
@@ -27,12 +27,9 @@ const Layout: FC<Route.ComponentProps> = ({ loaderData }) => {
 			<header className="sticky top-0 z-10 grid grid-flow-col grid-cols-[1fr_auto] items-center bg-white p-4 shadow-md">
 				<span className="font-bold text-xl">TODO app</span>
 				{sessionUser === undefined ? (
-					<Link
-						to={href("/login")}
-						className={buttonVariants({ variant: "link" })}
-					>
-						ログイン
-					</Link>
+					<Button variant="outline" asChild>
+						<Link to={href("/login")}>ログイン</Link>
+					</Button>
 				) : (
 					<PopoverTrigger>
 						<Button
@@ -49,21 +46,36 @@ const Layout: FC<Route.ComponentProps> = ({ loaderData }) => {
 							</Avatar>
 						</Button>
 						<Popover>
-							<PopoverDialog className="grid gap-4">
-								<span>{sessionUser?.name}</span>
-								<Link to={href("/users/:userId", { userId: sessionUser.id })}>
-									マイページ
-								</Link>
-								<Link
-									to={href("/users/:userId/tasks", { userId: sessionUser.id })}
-								>
-									タスク一覧
-								</Link>
-								<Form method="GET" action={href("/logout")}>
-									<Button type="submit" variant="outline">
+							<PopoverDialog className="grid w-3xs gap-4">
+								<span>{sessionUser.name}</span>
+								<ul>
+									<li>
+										<TextLink asChild>
+											<Link
+												to={href("/users/:userId", { userId: sessionUser.id })}
+											>
+												マイページ
+											</Link>
+										</TextLink>
+									</li>
+									<li>
+										<TextLink asChild>
+											<Link
+												to={href("/users/:userId/tasks", {
+													userId: sessionUser.id,
+												})}
+												prefetch="viewport"
+											>
+												タスク一覧
+											</Link>
+										</TextLink>
+									</li>
+								</ul>
+								<Button variant="outline" asChild>
+									<Link to={href("/logout")} className="place-self-end">
 										ログアウト
-									</Button>
-								</Form>
+									</Link>
+								</Button>
 							</PopoverDialog>
 						</Popover>
 					</PopoverTrigger>

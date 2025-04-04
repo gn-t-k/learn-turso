@@ -16,14 +16,7 @@ export const Default: Story = {
 	argTypes: {
 		variant: {
 			control: "select",
-			options: [
-				"default",
-				"destructive",
-				"outline",
-				"secondary",
-				"ghost",
-				"link",
-			],
+			options: ["default", "destructive", "outline", "secondary", "ghost"],
 			description: "The visual style of the button",
 		},
 		size: {

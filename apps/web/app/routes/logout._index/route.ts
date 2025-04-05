@@ -1,6 +1,6 @@
 import { href, redirect } from "react-router";
-import { redirectToSearchParams } from "../auth.google.callback/redirect-manager.server";
-import { destroySession } from "../auth.google/user-session-manager.server";
+import { redirectToSearchParams } from "../auth.google.callback/modules/redirect-manager.server";
+import { destroySession } from "../auth.google/modules/user-session-manager.server";
 import type { Route } from "./+types/route";
 
 export const loader = async ({ request }: Route.LoaderArgs) => {

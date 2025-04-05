@@ -23,7 +23,7 @@
 		"quickfix.biome": "explicit",
 		"source.organizeImports.biome": "explicit"
 	},
-	"editor.tabSize": 4,
+	"editor.tabSize": 2,
 	"editor.detectIndentation": false,
 	"cSpell.words": ["isbot", "libsql", "shadcn", "turso"]
 }

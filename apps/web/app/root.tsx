@@ -5,13 +5,10 @@ import {
 	Scripts,
 	ScrollRestoration,
 	isRouteErrorResponse,
-	useHref,
-	useNavigate,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { RouterProvider } from "@packages/react-components";
 import type { FC, PropsWithChildren } from "react";
 
 export const links: Route.LinksFunction = () => [
@@ -28,8 +25,6 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
-	const navigate = useNavigate();
-
 	return (
 		<html lang="en">
 			<head>
@@ -39,9 +34,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
 				<Links />
 			</head>
 			<body>
-				<RouterProvider navigate={navigate} useHref={useHref}>
-					{children}
-				</RouterProvider>
+				{children}
 				<ScrollRestoration />
 				<Scripts />
 			</body>

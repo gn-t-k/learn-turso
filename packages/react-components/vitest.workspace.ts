@@ -1,4 +1,6 @@
+// biome-ignore lint/correctness/noNodejsModules: <explanation>
 import path from "node:path";
+// biome-ignore lint/correctness/noNodejsModules: <explanation>
 import { fileURLToPath } from "node:url";
 
 import { defineWorkspace } from "vitest/config";

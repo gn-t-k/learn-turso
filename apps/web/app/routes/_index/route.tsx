@@ -1,5 +1,5 @@
 import { href, redirect } from "react-router";
-import { getSessionUser } from "../auth.google/user-session-manager.server";
+import { getSessionUser } from "../auth.google/modules/user-session-manager.server";
 import type { Route } from "./+types/route";
 
 export const loader = async ({ request }: Route.LoaderArgs) => {

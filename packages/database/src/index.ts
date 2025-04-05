@@ -1,3 +1,4 @@
+// biome-ignore lint/correctness/noNodejsModules: <explanation>
 import { AsyncLocalStorage } from "node:async_hooks";
 import { type Config, createClient } from "@libsql/client";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";

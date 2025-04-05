@@ -1,7 +1,7 @@
 import { type FC, Suspense } from "react";
 import type { Route } from "./+types/route";
-import { getTasks } from "./get-tasks.server";
-import { TaskList, TaskListSkeleton } from "./task-list";
+import { getTasks } from "./modules/get-tasks.server";
+import { TaskList, TaskListSkeleton } from "./modules/task-list";
 
 export const loader = ({ params }: Route.LoaderArgs) => {
 	const tasksPromise = getTasks(params.userId);

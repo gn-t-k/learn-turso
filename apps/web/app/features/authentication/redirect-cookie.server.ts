@@ -4,8 +4,6 @@ import invariant from "tiny-invariant";
 const nodeEnv = process.env["NODE_ENV"];
 invariant(nodeEnv, "環境変数`NODE_ENV`が設定されていません");
 
-export const redirectToSearchParams = "redirect_to";
-
 const redirectToCookie = createCookie("redirect_to", {
 	path: "/",
 	httpOnly: true,

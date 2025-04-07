@@ -1,7 +1,7 @@
 import { cn } from "@packages/react-components/src/utilities/cn";
 import type { ComponentProps, FC } from "react";
 
-export const HeaderContainer: FC<ComponentProps<"header">> = ({
+export const StickyHeader: FC<ComponentProps<"header">> = ({
 	className,
 	...props
 }) => {

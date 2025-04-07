@@ -1,8 +1,8 @@
 import { redirect } from "react-router";
-import { authenticateByGoogle } from "../auth.google/modules/authenticator.server";
-import { saveSession } from "../auth.google/modules/user-session-manager.server";
+import { authenticateByGoogle } from "../../features/authentication/authenticator.server";
+import { getRedirectTo } from "../../features/authentication/redirect-cookie.server";
+import { saveSession } from "../../features/authentication/user-session-storage.server";
 import type { Route } from "./+types/route";
-import { getRedirectTo } from "./modules/redirect-manager.server";
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
 	const user = await authenticateByGoogle(request);

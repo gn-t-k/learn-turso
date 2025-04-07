@@ -1,14 +1,13 @@
 import { cn } from "@packages/react-components/src/utilities/cn";
 import type { ComponentProps, FC } from "react";
 
-export const HeaderLayout: FC<ComponentProps<"div">> = ({
+export const AppLogotype: FC<ComponentProps<"span">> = ({
 	className,
 	...props
 }) => {
 	return (
-		<div
-			className={cn([className, "grid min-h-screen grid-rows-[auto_1fr]"])}
-			{...props}
-		/>
+		<span className={cn([className, "font-bold text-xl"])} {...props}>
+			TODO App
+		</span>
 	);
 };

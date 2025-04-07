@@ -1,5 +1,4 @@
 import {
-	Button,
 	Card,
 	CardContent,
 	CardDescription,
@@ -7,16 +6,16 @@ import {
 	CardTitle,
 } from "@packages/react-components";
 import type { FC } from "react";
-import { Form, data, href } from "react-router";
-import {
-	redirectToSearchParams,
-	setRedirectTo,
-} from "../auth.google.callback/modules/redirect-manager.server";
+import { data } from "react-router";
+import { GoogleLoginButton } from "../../features/authentication/google-login-button";
+import { setRedirectTo } from "../../features/authentication/redirect-cookie.server";
 import type { Route } from "./+types/route";
+
+export const redirectSearchParameter = "redirect_to";
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
 	const url = new URL(request.url);
-	const redirectTo = url.searchParams.get(redirectToSearchParams) || "/";
+	const redirectTo = url.searchParams.get(redirectSearchParameter) || "/";
 	const headers = await setRedirectTo(redirectTo);
 
 	return data(null, { headers });
@@ -34,11 +33,7 @@ const Page: FC<Route.ComponentProps> = () => {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<Form action={href("/auth/google")} method="GET">
-						<Button className="w-full" type="submit">
-							Login with Google
-						</Button>
-					</Form>
+					<GoogleLoginButton className="w-full" />
 				</CardContent>
 			</Card>
 		</main>

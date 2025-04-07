@@ -2,12 +2,10 @@ import { GoogleStrategy } from "@coji/remix-auth-google";
 import acceptLanguage from "accept-language";
 import { href } from "react-router";
 import type { OAuth2Strategy } from "remix-auth-oauth2";
+import type { Strategy } from "remix-auth/strategy";
 import invariant from "tiny-invariant";
-import { ulid } from "ulid";
 import { createOrUpdateUser } from "./create-or-update-user.server";
-import { createUserAuthenticatedEvent } from "./create-user-authenticated-event.server";
-import { findLastAuthenticatedEvent } from "./find-last-authenticated-event.server";
-import type { SessionUser } from "./user-session-manager.server";
+import type { SessionUser } from "./session-user";
 
 const clientId = process.env["GOOGLE_AUTH_CLIENT_ID"];
 invariant(clientId, "環境変数`GOOGLE_AUTH_CLIENT_ID`が設定されていません");
@@ -26,42 +24,24 @@ const redirectURI = `${isDev ? devOrigin : prodOrigin}${href("/auth/google/callb
 
 export const googleStrategy = new GoogleStrategy(
 	{ clientId, clientSecret, redirectURI },
-	(props) => verifyUser(props),
+	async ({ request, tokens }) => verifyUser({ request, tokens }),
 );
 
-const verifyUser: OAuth2Strategy<SessionUser>["verify"] = async ({
-	request,
-	tokens,
-}) => {
-	const { email, name, imageUrl } = await getProfile(request, tokens);
-
-	const lastAuthenticatedEvent = await findLastAuthenticatedEvent({
-		email,
-		authenticatedBy: "google",
+type VerifyUser = Strategy.VerifyFunction<
+	SessionUser,
+	OAuth2Strategy.VerifyOptions
+>;
+const verifyUser: VerifyUser = async ({ request, tokens }) => {
+	const profile = await getProfile(request, tokens);
+	const user = await createOrUpdateUser({
+		name: profile.name,
+		email: profile.email,
+		imageUrl: profile.imageUrl,
 	});
-	const isFirstTime = lastAuthenticatedEvent === undefined;
-	const userId = isFirstTime ? ulid() : lastAuthenticatedEvent.userId;
-
-	const [user, userAuthenticatedEvent] = await Promise.all([
-		createOrUpdateUser({ id: userId, email, name, imageUrl }),
-		createUserAuthenticatedEvent({
-			id: ulid(),
-			userId,
-			authenticatedBy: "google",
-			authenticatedAt: new Date(),
-		}),
-	]);
-
-	if (user === undefined) {
-		throw new Error("usersのupsertクエリが失敗しました");
-	}
-	if (userAuthenticatedEvent === undefined) {
-		throw new Error("user_authenticated_eventsのinsertクエリが失敗しました");
-	}
 
 	return {
 		id: user.id,
-		email,
+		email: user.email,
 		name: user.name,
 		imageUrl: user.imageUrl,
 	};
@@ -71,7 +51,7 @@ type GetProfile = (
 	request: Request,
 	tokens: Tokens,
 ) => Promise<{ email: string; name: string; locale: string; imageUrl: string }>;
-type Tokens = Parameters<OAuth2Strategy<SessionUser>["verify"]>[0]["tokens"];
+type Tokens = Parameters<VerifyUser>[0]["tokens"];
 const getProfile: GetProfile = async (request, tokens) => {
 	const profile = await GoogleStrategy.userProfile(tokens);
 	const name = profile.displayName;

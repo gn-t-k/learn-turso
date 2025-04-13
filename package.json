@@ -13,7 +13,8 @@
 		"biome:check": "biome check . --config-path=biome.jsonc",
 		"dev": "turbo dev",
 		"storybook": "turbo storybook",
-		"clean": "turbo run clean && rm -rf node_modules .turbo && pnpm store prune"
+		"clean": "turbo run clean && rm -rf node_modules .turbo && pnpm store prune",
+		"test": "turbo test"
 	},
 	"dependencies": {
 		"@biomejs/biome": "^1.9.4",

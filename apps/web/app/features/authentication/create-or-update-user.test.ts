@@ -10,47 +10,56 @@ describe("createOrUpdateUser", async () => {
 	});
 
 	test("同じemailのユーザーが存在しない場合、ユーザーが作成される", () => {
-		const email = "test@example.com";
-		const name = "Test User";
-		const imageUrl = "https://example.com/image.jpg";
-
 		withTestDb(async () => {
-			await createOrUpdateUser({ email, name, imageUrl });
+			const email = "test@example.com";
+			const name = "Test User";
+			const imageUrl = "https://example.com/image.jpg";
 
 			const database = getDatabase();
-			const result = await database
+
+			const before = await database.select().from(users);
+			expect(before).toEqual([]);
+
+			await createOrUpdateUser({ email, name, imageUrl });
+			const after = await database
 				.select({
 					email: users.email,
 					name: users.name,
 					imageUrl: users.imageUrl,
 				})
 				.from(users);
-
-			expect(result).toEqual([{ email, name, imageUrl }]);
+			expect(after).toEqual([{ email, name, imageUrl }]);
 		});
 	});
 
 	test("同じemailのユーザーが存在する場合、ユーザーが更新される", () => {
-		const email = "test@example.com";
-		const name = "Test User";
-		const imageUrl = "https://example.com/image.jpg";
-
-		const updatedName = "Updated User";
-
 		withTestDb(async () => {
-			await createOrUpdateUser({ email, name, imageUrl });
-			await createOrUpdateUser({ email, name: updatedName, imageUrl });
+			const email = "test@example.com";
+			const name = "Test User";
+			const imageUrl = "https://example.com/image.jpg";
 
 			const database = getDatabase();
-			const result = await database
+
+			await createOrUpdateUser({ email, name, imageUrl });
+			const before = await database
 				.select({
 					email: users.email,
 					name: users.name,
 					imageUrl: users.imageUrl,
 				})
 				.from(users);
+			expect(before).toEqual([{ email, name, imageUrl }]);
 
-			expect(result).toEqual([{ email, name: updatedName, imageUrl }]);
+			const updatedName = "Updated User";
+			await createOrUpdateUser({ email, name: updatedName, imageUrl });
+			const after = await database
+				.select({
+					email: users.email,
+					name: users.name,
+					imageUrl: users.imageUrl,
+				})
+				.from(users);
+			expect(after).toEqual([{ email, name: updatedName, imageUrl }]);
 		});
 	});
 });

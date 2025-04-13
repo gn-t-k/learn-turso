@@ -25,5 +25,5 @@
 	},
 	"editor.tabSize": 2,
 	"editor.detectIndentation": false,
-	"cSpell.words": ["isbot", "libsql", "shadcn", "turso"]
+	"cSpell.words": ["Dismissable", "isbot", "libsql", "shadcn", "turso"]
 }

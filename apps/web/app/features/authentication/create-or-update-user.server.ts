@@ -12,9 +12,11 @@ type CreateOrUpdateGoogleAuthenticatedUser = (props: {
 type User = { id: string; email: string; name: string; imageUrl: string };
 export const createOrUpdateUser: CreateOrUpdateGoogleAuthenticatedUser =
 	async ({ name, email, imageUrl }) => {
+		const authenticatedBy = "google";
+
 		const lastAuthenticatedEvent = await findLastAuthenticatedEvent({
 			email,
-			authenticatedBy: "google",
+			authenticatedBy,
 		});
 		const isFirstTime = lastAuthenticatedEvent === undefined;
 		const userId = isFirstTime ? ulid() : lastAuthenticatedEvent.userId;
@@ -24,7 +26,7 @@ export const createOrUpdateUser: CreateOrUpdateGoogleAuthenticatedUser =
 			insertUserAuthenticatedEvent({
 				id: ulid(),
 				userId,
-				authenticatedBy: "google",
+				authenticatedBy,
 				authenticatedAt: new Date(),
 			}),
 		]);

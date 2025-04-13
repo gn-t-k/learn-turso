@@ -3,7 +3,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"test": "vitest run --passWithNoTests",
+		"test": "vitest run",
 		"build": "cross-env NODE_ENV=production react-router build",
 		"generate": "react-router typegen && wrangler types",
 		"check": "tsc --noEmit",

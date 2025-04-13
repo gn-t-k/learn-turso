@@ -5,5 +5,6 @@ export default defineConfig({
 		mockReset: true,
 		clearMocks: true,
 		restoreMocks: true,
+		globalSetup: "./vitest.global-setup.ts",
 	},
 });

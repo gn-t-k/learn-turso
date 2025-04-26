@@ -2,11 +2,10 @@
 import fs from "node:fs";
 // biome-ignore lint/correctness/noNodejsModules: <explanation>
 import path from "node:path";
-import { createClient } from "@libsql/client";
-import { temporaryDatabaseConfig } from "./temporary-database-config";
+import type { Client } from "@libsql/client";
 
-type RunMigrations = () => Promise<void>;
-export const runMigrations: RunMigrations = async () => {
+type RunMigrations = (libsql: Client) => Promise<void>;
+export const runMigrations: RunMigrations = async (libsql) => {
 	const migrationsDir = path.join(__dirname, "../../migrations");
 
 	if (!fs.existsSync(migrationsDir)) {
@@ -18,7 +17,6 @@ export const runMigrations: RunMigrations = async () => {
 		.filter((file) => file.endsWith(".sql"))
 		.sort();
 
-	const database = createClient(temporaryDatabaseConfig);
 	for (const file of migrationFiles) {
 		const filePath = path.join(migrationsDir, file);
 		const sql = fs.readFileSync(filePath, "utf-8");
@@ -28,6 +26,6 @@ export const runMigrations: RunMigrations = async () => {
 			.map((statement) => statement.trim())
 			.filter((statement) => statement.length > 0);
 
-		await database.migrate(statements);
+		await libsql.migrate(statements);
 	}
 };

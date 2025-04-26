@@ -1,4 +1,4 @@
-import { deleteTables, getDatabase } from "@packages/database";
+import { resetTables } from "@packages/database";
 import { users } from "@packages/database/src/tables/users";
 import { withTestDb } from "app/helpers/with-test-db";
 import { beforeEach, describe, expect, test } from "vitest";
@@ -6,16 +6,14 @@ import { createOrUpdateUser } from "./create-or-update-user.server";
 
 describe("createOrUpdateUser", async () => {
 	beforeEach(async () => {
-		await deleteTables();
+		await resetTables();
 	});
 
 	test("同じemailのユーザーが存在しない場合、ユーザーが作成される", () => {
-		withTestDb(async () => {
+		withTestDb(async (database) => {
 			const email = "test@example.com";
 			const name = "Test User";
 			const imageUrl = "https://example.com/image.jpg";
-
-			const database = getDatabase();
 
 			const before = await database.select().from(users);
 			expect(before).toEqual([]);
@@ -33,12 +31,10 @@ describe("createOrUpdateUser", async () => {
 	});
 
 	test("同じemailのユーザーが存在する場合、ユーザーが更新される", () => {
-		withTestDb(async () => {
+		withTestDb(async (database) => {
 			const email = "test@example.com";
 			const name = "Test User";
 			const imageUrl = "https://example.com/image.jpg";
-
-			const database = getDatabase();
 
 			await createOrUpdateUser({ email, name, imageUrl });
 			const before = await database

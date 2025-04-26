@@ -1,4 +1,4 @@
-import { eq, getDatabase } from "@packages/database";
+import { database, eq } from "@packages/database";
 import { users as usersTable } from "@packages/database/src/tables/users";
 
 type FindUser = (id: string) => Promise<User | undefined>;
@@ -7,7 +7,6 @@ type User = {
 	name: string;
 };
 export const findUser: FindUser = async (id) => {
-	const database = getDatabase();
 	const [user] = await database
 		.select({ id: usersTable.id, name: usersTable.name })
 		.from(usersTable)

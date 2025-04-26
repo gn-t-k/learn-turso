@@ -1,4 +1,4 @@
-import { eq, getDatabase } from "@packages/database";
+import { database, eq } from "@packages/database";
 import { tasks as tasksTable } from "@packages/database/src/tables/tasks";
 
 type GetTasks = (ownerId: string) => Promise<Task[]>;
@@ -8,7 +8,6 @@ type Task = {
 	completed: boolean;
 };
 export const getTasks: GetTasks = async (ownerId) => {
-	const database = getDatabase();
 	const tasks = await database
 		.select({
 			id: tasksTable.id,

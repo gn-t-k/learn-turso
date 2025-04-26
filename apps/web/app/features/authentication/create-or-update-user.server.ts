@@ -1,4 +1,4 @@
-import { and, desc, eq, getDatabase } from "@packages/database";
+import { and, database, desc, eq } from "@packages/database";
 import type { InferInsertModel, InferSelectModel } from "@packages/database";
 import { userAuthenticatedEvents } from "@packages/database/src/tables/user-authenticated-events";
 import { users } from "@packages/database/src/tables/users";
@@ -49,7 +49,6 @@ export const findLastAuthenticatedEvent: FindLastAuthenticatedEvent = async ({
 	email,
 	authenticatedBy,
 }) => {
-	const database = getDatabase();
 	const [lastAuthenticatedEvent] = await database
 		.select({ userId: userAuthenticatedEvents.userId })
 		.from(userAuthenticatedEvents)
@@ -72,7 +71,6 @@ type UpsertUser = (
 	props: InferInsertModel<typeof users>,
 ) => Promise<InferSelectModel<typeof users> | undefined>;
 const upsertUser: UpsertUser = async (props) => {
-	const database = getDatabase();
 	const [user] = await database
 		.insert(users)
 		.values(props)
@@ -91,7 +89,6 @@ type InsertUserAuthenticatedEvent = (
 const insertUserAuthenticatedEvent: InsertUserAuthenticatedEvent = async (
 	props,
 ) => {
-	const database = getDatabase();
 	const [event] = await database
 		.insert(userAuthenticatedEvents)
 		.values(props)

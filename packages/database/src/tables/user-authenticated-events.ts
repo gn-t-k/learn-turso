@@ -1,5 +1,6 @@
+import { defineFactory } from "@praha/drizzle-factory";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { users } from "./users";
+import { users, usersFactory } from "./users";
 
 export const userAuthenticatedEvents = sqliteTable(
 	"user_authenticated_events",
@@ -12,3 +13,17 @@ export const userAuthenticatedEvents = sqliteTable(
 		authenticatedAt: integer({ mode: "timestamp" }).notNull(),
 	},
 );
+
+export const userAuthenticatedEventsFactory = defineFactory({
+	schema: { users, userAuthenticatedEvents },
+	table: "userAuthenticatedEvents",
+	resolver: ({ sequence, use }) => ({
+		id: sequence.toString(),
+		userId: () =>
+			use(usersFactory)
+				.create()
+				.then((user) => user.id),
+		authenticatedBy: "google",
+		authenticatedAt: new Date(),
+	}),
+});

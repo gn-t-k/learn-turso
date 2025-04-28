@@ -1,6 +1,6 @@
 import { Authenticator } from "remix-auth";
-import { googleStrategy } from "./google-strategy.server";
-import type { SessionUser } from "./session-user";
+import { googleStrategy } from "./modules/google-strategy.server";
+import type { SessionUser } from "./modules/session-user";
 
 const authenticator = new Authenticator<SessionUser>();
 

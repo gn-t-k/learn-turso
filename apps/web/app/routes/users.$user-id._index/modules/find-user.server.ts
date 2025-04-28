@@ -1,5 +1,5 @@
 import { database, eq } from "@packages/database";
-import { users as usersTable } from "@packages/database/src/tables/users";
+import { tables } from "@packages/database";
 
 type FindUser = (id: string) => Promise<User | undefined>;
 type User = {
@@ -8,9 +8,9 @@ type User = {
 };
 export const findUser: FindUser = async (id) => {
 	const [user] = await database
-		.select({ id: usersTable.id, name: usersTable.name })
-		.from(usersTable)
-		.where(eq(usersTable.id, id));
+		.select({ id: tables.users.id, name: tables.users.name })
+		.from(tables.users)
+		.where(eq(tables.users.id, id));
 
 	return user;
 };

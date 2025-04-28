@@ -17,6 +17,7 @@
 		"@packages/database": "workspace:*",
 		"@packages/react-components": "workspace:*",
 		"@packages/styles": "workspace:*",
+		"@praha/error-factory": "^1.0.1",
 		"@react-router/node": "^7.3.0",
 		"@react-router/serve": "^7.3.0",
 		"accept-language": "^3.0.20",

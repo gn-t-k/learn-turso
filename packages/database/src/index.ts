@@ -1,4 +1,4 @@
 export * from "drizzle-orm";
-export * from "./schema";
+export * from "./tables";
 export * from "./test-helpers";
-export { databaseProvider, database } from "./database-provider";
+export * from "./database-provider";

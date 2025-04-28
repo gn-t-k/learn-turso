@@ -1,6 +1,6 @@
 import { type Session, createCookieSessionStorage } from "react-router";
 import invariant from "tiny-invariant";
-import type { SessionUser } from "./session-user";
+import type { SessionUser } from "./modules/session-user";
 
 const sessionSecret = process.env["SESSION_SECRET"];
 invariant(sessionSecret, "環境変数`SESSION_SECRET`が設定されていません");

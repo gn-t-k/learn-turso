@@ -1,7 +1,6 @@
 import { and, database, desc, eq } from "@packages/database";
 import type { InferInsertModel, InferSelectModel } from "@packages/database";
-import { userAuthenticatedEvents } from "@packages/database/src/tables/user-authenticated-events";
-import { users } from "@packages/database/src/tables/users";
+import { tables } from "@packages/database";
 import { ulid } from "ulid";
 
 type CreateOrUpdateGoogleAuthenticatedUser = (props: {
@@ -45,21 +44,24 @@ type FindLastAuthenticatedEvent = (props: {
 	email: string;
 	authenticatedBy: string;
 }) => Promise<{ userId: string } | undefined>;
-export const findLastAuthenticatedEvent: FindLastAuthenticatedEvent = async ({
+const findLastAuthenticatedEvent: FindLastAuthenticatedEvent = async ({
 	email,
 	authenticatedBy,
 }) => {
 	const [lastAuthenticatedEvent] = await database
-		.select({ userId: userAuthenticatedEvents.userId })
-		.from(userAuthenticatedEvents)
-		.innerJoin(users, eq(userAuthenticatedEvents.userId, users.id))
+		.select({ userId: tables.userAuthenticatedEvents.userId })
+		.from(tables.userAuthenticatedEvents)
+		.innerJoin(
+			tables.users,
+			eq(tables.userAuthenticatedEvents.userId, tables.users.id),
+		)
 		.where(
 			and(
-				eq(users.email, email),
-				eq(userAuthenticatedEvents.authenticatedBy, authenticatedBy),
+				eq(tables.users.email, email),
+				eq(tables.userAuthenticatedEvents.authenticatedBy, authenticatedBy),
 			),
 		)
-		.orderBy(desc(userAuthenticatedEvents.authenticatedAt))
+		.orderBy(desc(tables.userAuthenticatedEvents.authenticatedAt))
 		.limit(1);
 
 	return lastAuthenticatedEvent
@@ -68,14 +70,14 @@ export const findLastAuthenticatedEvent: FindLastAuthenticatedEvent = async ({
 };
 
 type UpsertUser = (
-	props: InferInsertModel<typeof users>,
-) => Promise<InferSelectModel<typeof users> | undefined>;
+	props: InferInsertModel<typeof tables.users>,
+) => Promise<InferSelectModel<typeof tables.users> | undefined>;
 const upsertUser: UpsertUser = async (props) => {
 	const [user] = await database
-		.insert(users)
+		.insert(tables.users)
 		.values(props)
 		.onConflictDoUpdate({
-			target: users.id,
+			target: tables.users.id,
 			set: { name: props.name, imageUrl: props.imageUrl },
 		})
 		.returning();
@@ -84,13 +86,15 @@ const upsertUser: UpsertUser = async (props) => {
 };
 
 type InsertUserAuthenticatedEvent = (
-	props: InferInsertModel<typeof userAuthenticatedEvents>,
-) => Promise<InferSelectModel<typeof userAuthenticatedEvents> | undefined>;
+	props: InferInsertModel<typeof tables.userAuthenticatedEvents>,
+) => Promise<
+	InferSelectModel<typeof tables.userAuthenticatedEvents> | undefined
+>;
 const insertUserAuthenticatedEvent: InsertUserAuthenticatedEvent = async (
 	props,
 ) => {
 	const [event] = await database
-		.insert(userAuthenticatedEvents)
+		.insert(tables.userAuthenticatedEvents)
 		.values(props)
 		.returning();
 

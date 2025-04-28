@@ -1,5 +1,4 @@
-import { resetTables } from "@packages/database";
-import { users } from "@packages/database/src/tables/users";
+import { factories, resetTables, tables } from "@packages/database";
 import { withTestDb } from "app/helpers/with-test-db";
 import { beforeEach, describe, expect, test } from "vitest";
 import { createOrUpdateUser } from "./create-or-update-user.server";
@@ -14,18 +13,18 @@ describe("createOrUpdateUser", async () => {
 			const email = "test@example.com";
 			const name = "Test User";
 			const imageUrl = "https://example.com/image.jpg";
-
-			const before = await database.select().from(users);
+			const before = await database.select().from(tables.users);
 			expect(before).toEqual([]);
 
-			await createOrUpdateUser({ email, name, imageUrl });
+			await factories.users(database).create({ email, name, imageUrl });
+
 			const after = await database
 				.select({
-					email: users.email,
-					name: users.name,
-					imageUrl: users.imageUrl,
+					email: tables.users.email,
+					name: tables.users.name,
+					imageUrl: tables.users.imageUrl,
 				})
-				.from(users);
+				.from(tables.users);
 			expect(after).toEqual([{ email, name, imageUrl }]);
 		});
 	});
@@ -39,22 +38,22 @@ describe("createOrUpdateUser", async () => {
 			await createOrUpdateUser({ email, name, imageUrl });
 			const before = await database
 				.select({
-					email: users.email,
-					name: users.name,
-					imageUrl: users.imageUrl,
+					email: tables.users.email,
+					name: tables.users.name,
+					imageUrl: tables.users.imageUrl,
 				})
-				.from(users);
+				.from(tables.users);
 			expect(before).toEqual([{ email, name, imageUrl }]);
 
 			const updatedName = "Updated User";
 			await createOrUpdateUser({ email, name: updatedName, imageUrl });
 			const after = await database
 				.select({
-					email: users.email,
-					name: users.name,
-					imageUrl: users.imageUrl,
+					email: tables.users.email,
+					name: tables.users.name,
+					imageUrl: tables.users.imageUrl,
 				})
-				.from(users);
+				.from(tables.users);
 			expect(after).toEqual([{ email, name: updatedName, imageUrl }]);
 		});
 	});

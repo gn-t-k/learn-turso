@@ -38,6 +38,9 @@ importers:
       '@packages/styles':
         specifier: workspace:*
         version: link:../../packages/styles
+      '@praha/error-factory':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@react-router/node':
         specifier: ^7.3.0
         version: 7.3.0(react-router@7.3.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.8.2)
@@ -123,6 +126,9 @@ importers:
       '@libsql/client':
         specifier: ^0.14.0
         version: 0.14.0
+      '@praha/drizzle-factory':
+        specifier: ^1.0.2
+        version: 1.0.2(drizzle-orm@0.40.0(@cloudflare/workers-types@4.20250311.0)(@libsql/client@0.14.0)(gel@2.0.1))
       drizzle-orm:
         specifier: ^0.40.0
         version: 0.40.0(@cloudflare/workers-types@4.20250311.0)(@libsql/client@0.14.0)(gel@2.0.1)
@@ -1450,6 +1456,14 @@ packages:
 
   '@polka/url@1.0.0-next.28':
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
+
+  '@praha/drizzle-factory@1.0.2':
+    resolution: {integrity: sha512-b/S7sECiNIMlfpzfBqlpOQ3+dm5zUhpQDjGsDl0bB7wSX7SsjbKBbP9vupUBAWaxxQjBfpcsYBSuNdLvxO2qtQ==}
+    peerDependencies:
+      drizzle-orm: 0.x
+
+  '@praha/error-factory@1.0.1':
+    resolution: {integrity: sha512-JjxgaWG0XF8IUGHxUSvx2j1CE8uhL7+a3pCQiAi1Jt7u0CiYF4piwEYI1p97fyXC4w0Y1hsQSZxOXemN+3e0cA==}
 
   '@radix-ui/react-avatar@1.1.3':
     resolution: {integrity: sha512-Paen00T4P8L8gd9bNsRMw7Cbaz85oxiv+hzomsRZgFm2byltPFDtfcoqlWJ8GyZlIBWgLssJlzLCnKU0G0302g==}
@@ -5575,6 +5589,12 @@ snapshots:
     optional: true
 
   '@polka/url@1.0.0-next.28': {}
+
+  '@praha/drizzle-factory@1.0.2(drizzle-orm@0.40.0(@cloudflare/workers-types@4.20250311.0)(@libsql/client@0.14.0)(gel@2.0.1))':
+    dependencies:
+      drizzle-orm: 0.40.0(@cloudflare/workers-types@4.20250311.0)(@libsql/client@0.14.0)(gel@2.0.1)
+
+  '@praha/error-factory@1.0.1': {}
 
   '@radix-ui/react-avatar@1.1.3(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:

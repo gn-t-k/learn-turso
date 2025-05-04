@@ -26,6 +26,12 @@ importers:
       '@coji/remix-auth-google':
         specifier: ^4.2.0
         version: 4.2.0
+      '@conform-to/react':
+        specifier: ^1.4.0
+        version: 1.4.0(react@19.0.0)
+      '@conform-to/valibot':
+        specifier: ^1.0.1
+        version: 1.0.1(valibot@1.0.0(typescript@5.8.2))
       '@hono/vite-dev-server':
         specifier: ^0.19.0
         version: 0.19.0(hono@4.7.4)(miniflare@3.20250310.0)(wrangler@3.114.1(@cloudflare/workers-types@4.20250311.0))
@@ -80,6 +86,9 @@ importers:
       ulid:
         specifier: ^2.3.0
         version: 2.3.0
+      valibot:
+        specifier: ^1.0.0
+        version: 1.0.0(typescript@5.8.2)
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20241112.0
@@ -528,6 +537,19 @@ packages:
 
   '@coji/remix-auth-google@4.2.0':
     resolution: {integrity: sha512-H9i3fvVz0GE18GUZHpz7p7FQjuiuloTIBAPjW7cfv7lUEk+mI6WRTVLEHJBLLuTlAF1+0EbzvPRYKutxZiFdfw==}
+
+  '@conform-to/dom@1.4.0':
+    resolution: {integrity: sha512-BvYzotcvq6PxTmxCOV089VXzv7oij+yeGIO/Q5/K2f8s030EHzxelPHmLmdnGrKrPP4XRVaYqQHdjHExrqbkBg==}
+
+  '@conform-to/react@1.4.0':
+    resolution: {integrity: sha512-1oYN+sErUCmxVcVSGE8mO9PiAHKqkb9KrXstER4rTHw+xC3NrQJjQBs+ifilMCfGFw/UJZRexo05TwyI+h0jpg==}
+    peerDependencies:
+      react: '>=18'
+
+  '@conform-to/valibot@1.0.1':
+    resolution: {integrity: sha512-xi0juqzCrrnlKJhZxo7TS/i5ZjXfp3o1XaxWYGFCeTVAxxuXTjqHOSDELX3uSyL5L9ZHog0ffozBcOaYyrITyw==}
+    peerDependencies:
+      valibot: '>= 0.32.0'
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -4441,6 +4463,14 @@ packages:
       typescript:
         optional: true
 
+  valibot@1.0.0:
+    resolution: {integrity: sha512-1Hc0ihzWxBar6NGeZv7fPLY0QuxFMyxwYR2sF1Blu7Wq7EnremwY2W02tit2ij2VJT8HcSkHAQqmFfl77f73Yw==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
@@ -4935,6 +4965,18 @@ snapshots:
   '@cloudflare/workers-types@4.20250311.0': {}
 
   '@coji/remix-auth-google@4.2.0': {}
+
+  '@conform-to/dom@1.4.0': {}
+
+  '@conform-to/react@1.4.0(react@19.0.0)':
+    dependencies:
+      '@conform-to/dom': 1.4.0
+      react: 19.0.0
+
+  '@conform-to/valibot@1.0.1(valibot@1.0.0(typescript@5.8.2))':
+    dependencies:
+      '@conform-to/dom': 1.4.0
+      valibot: 1.0.0(typescript@5.8.2)
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -9201,6 +9243,10 @@ snapshots:
   uuid@9.0.1: {}
 
   valibot@0.41.0(typescript@5.8.2):
+    optionalDependencies:
+      typescript: 5.8.2
+
+  valibot@1.0.0(typescript@5.8.2):
     optionalDependencies:
       typescript: 5.8.2
 

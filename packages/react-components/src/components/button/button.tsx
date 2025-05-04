@@ -49,7 +49,7 @@ export const buttonVariants = cva(
 	{
 		variants: {
 			variant: {
-				default:
+				primary:
 					"bg-primary text-primary-foreground data-[hovered]:bg-primary/90",
 				destructive:
 					"bg-destructive text-destructive-foreground data-[hovered]:bg-destructive/90",
@@ -58,18 +58,17 @@ export const buttonVariants = cva(
 				secondary:
 					"bg-secondary text-secondary-foreground data-[hovered]:bg-secondary/80",
 				ghost: "data-[hovered]:bg-accent data-[hovered]:text-accent-foreground",
-				link: "text-primary underline-offset-4 data-[hovered]:underline",
 			},
 			size: {
-				default: "h-10 px-4 py-2",
 				sm: "h-9 rounded-md px-3",
+				md: "h-10 px-4 py-2",
 				lg: "h-11 rounded-md px-8",
 				icon: "size-10",
 			},
 		},
 		defaultVariants: {
-			variant: "default",
-			size: "default",
+			variant: "primary",
+			size: "md",
 		},
 	},
 );

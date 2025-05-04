@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "./button";
+import type { VariantProps } from "class-variance-authority";
+import { Button, type buttonVariants } from "./button";
 
 const meta = {
 	title: "Button",
@@ -8,6 +9,7 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+type StyleVariants = VariantProps<typeof buttonVariants>;
 
 export const Default: Story = {
 	args: {
@@ -16,13 +18,17 @@ export const Default: Story = {
 	argTypes: {
 		variant: {
 			control: "select",
-			options: ["default", "destructive", "outline", "secondary", "ghost"],
-			description: "The visual style of the button",
+			options: [
+				"primary",
+				"destructive",
+				"outline",
+				"secondary",
+				"ghost",
+			] satisfies StyleVariants["variant"][],
 		},
 		size: {
 			control: "select",
-			options: ["default", "sm", "lg", "icon"],
-			description: "The size of the button",
+			options: ["sm", "md", "lg", "icon"] satisfies StyleVariants["size"][],
 		},
 	},
 };

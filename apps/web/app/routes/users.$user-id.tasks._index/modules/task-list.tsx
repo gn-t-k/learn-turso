@@ -15,7 +15,11 @@ export const TaskList: FC<TaskListProps> = ({ tasksPromise }) => {
 		<ul>
 			{tasks.map((task) => (
 				<li key={task.id}>
-					<input type="checkbox" checked={task.completed} />
+					<input
+						type="checkbox"
+						defaultChecked={task.completed}
+						onChange={(event) => console.log(event.currentTarget.checked)}
+					/>
 					{task.title}
 				</li>
 			))}

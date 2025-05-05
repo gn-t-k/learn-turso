@@ -1,4 +1,9 @@
-import { Button } from "@packages/react-components";
+import {
+	Button,
+	Popover,
+	PopoverDialog,
+	PopoverTrigger,
+} from "@packages/react-components";
 import type { FC } from "react";
 import { Link, Outlet, href } from "react-router";
 import { getSessionUser } from "../../features/authentication/user-session-storage.server";
@@ -27,16 +32,20 @@ const Layout: FC<Route.ComponentProps> = ({ loaderData }) => {
 						<Link to={href("/login")}>ログイン</Link>
 					</Button>
 				) : (
-					<UserPopover
-						userId={sessionUser.id}
-						userName={sessionUser.name}
-						trigger={
-							<UserIconButton
-								userName={sessionUser.name}
-								userImageUrl={sessionUser.imageUrl}
-							/>
-						}
-					/>
+					<PopoverTrigger>
+						<UserIconButton
+							userName={sessionUser.name}
+							userImageUrl={sessionUser.imageUrl}
+						/>
+						<Popover>
+							<PopoverDialog className="w-3xs">
+								<UserPopover
+									userId={sessionUser.id}
+									userName={sessionUser.name}
+								/>
+							</PopoverDialog>
+						</Popover>
+					</PopoverTrigger>
 				)}
 			</StickyHeader>
 			<Outlet />

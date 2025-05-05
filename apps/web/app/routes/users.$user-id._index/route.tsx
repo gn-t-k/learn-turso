@@ -4,9 +4,12 @@ import {
 	DialogOverlay,
 	DialogTrigger,
 } from "@packages/react-components";
-import { cn } from "@packages/react-components/src/utilities/cn";
 import type { FC } from "react";
+import { href, redirect, useFetcher } from "react-router";
+import { getSessionUser } from "../../features/authentication/user-session-storage.server";
 import type { Route } from "./+types/route";
+import { DeleteAccountConfirmDialog } from "./modules/delete-account-confirm-dialog";
+import { deleteAccount } from "./modules/delete-account.server";
 import { findUser } from "./modules/find-user.server";
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
@@ -20,6 +23,7 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
 
 const Page: FC<Route.ComponentProps> = ({ loaderData }) => {
 	const { user } = loaderData;
+	const fetcher = useFetcher();
 
 	return (
 		<main className="grid auto-rows-min gap-4 p-4">
@@ -31,27 +35,11 @@ const Page: FC<Route.ComponentProps> = ({ loaderData }) => {
 					<DialogContent role="alertdialog">
 						{({ close }) => {
 							return (
-								<div className="grid gap-4">
-									<p>Are you sure you want to delete your account?</p>
-									<div
-										className={cn([
-											"grid justify-items-stretch gap-2",
-											"sm:grid-flow-col sm:justify-end sm:justify-items-start",
-										])}
-									>
-										<Button onClick={close} variant="outline">
-											Cancel
-										</Button>
-										<Button
-											variant="destructive"
-											onClick={() => {
-												/* handle delete logic */
-											}}
-										>
-											Delete
-										</Button>
-									</div>
-								</div>
+								<DeleteAccountConfirmDialog
+									busy={fetcher.state !== "idle"}
+									close={close}
+									deleteAccount={() => fetcher.submit({}, { method: "POST" })}
+								/>
 							);
 						}}
 					</DialogContent>
@@ -61,3 +49,15 @@ const Page: FC<Route.ComponentProps> = ({ loaderData }) => {
 	);
 };
 export default Page;
+
+export const action = async ({ request, params }: Route.ActionArgs) => {
+	const sessionUser = await getSessionUser(request);
+
+	if (sessionUser?.id !== params.userId) {
+		throw new Response(null, { status: 403, statusText: "Forbidden" });
+	}
+
+	await deleteAccount(params.userId);
+
+	return redirect(href("/logout"));
+};

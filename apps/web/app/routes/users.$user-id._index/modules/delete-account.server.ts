@@ -1,14 +1,14 @@
 import { database, eq, tables } from "@packages/database";
 import { ErrorFactory } from "@praha/error-factory";
 
-export type DeleteUserError = UserNotFoundError;
+export type DeleteAccountError = UserNotFoundError;
 class UserNotFoundError extends ErrorFactory({
 	name: "UserNotFoundError",
 	message: "存在しないユーザーのIDが指定されました",
 }) {}
 
-type DeleteUser = (userId: string) => Promise<void>;
-export const deleteUser: DeleteUser = async (userId) => {
+type DeleteAccount = (userId: string) => Promise<void>;
+export const deleteAccount: DeleteAccount = async (userId) => {
 	const [user] = await database
 		.select({ id: tables.users.id })
 		.from(tables.users)

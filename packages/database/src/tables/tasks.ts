@@ -9,8 +9,8 @@ export const tasks = sqliteTable("tasks", {
 	ownerId: text("owner_id")
 		.notNull()
 		.references(() => users.id),
-	createdAt: integer({ mode: "timestamp" }).notNull(),
-	updatedAt: integer({ mode: "timestamp" }).notNull(),
+	createdAt: integer({ mode: "timestamp_ms" }).notNull(),
+	updatedAt: integer({ mode: "timestamp_ms" }).notNull(),
 });
 
 export const tasksFactory = defineFactory({

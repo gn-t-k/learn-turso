@@ -1,7 +1,9 @@
 import { parseWithValibot } from "@conform-to/valibot";
 import { type FC, Suspense } from "react";
+import { useFetcher } from "react-router";
 import { getSessionUser } from "../../features/authentication/user-session-storage.server";
 import type { Route } from "./+types/route";
+import { completeTask } from "./modules/complete-task.server";
 import { createTask } from "./modules/create-task.server";
 import { getTasks } from "./modules/get-tasks.server";
 import { TaskForm, taskFormSchema } from "./modules/task-form";
@@ -15,13 +17,24 @@ export const loader = ({ params }: Route.LoaderArgs) => {
 
 const Page: FC<Route.ComponentProps> = ({ loaderData }) => {
 	const { tasksPromise } = loaderData;
+	const fetcher = useFetcher();
+	const completeTask = async (taskId: string) => {
+		await fetcher.submit(
+			{ actionType: "complete-task", taskId },
+			{ method: "post" },
+		);
+	};
 
 	return (
 		<main>
 			<h1>Tasks</h1>
 			<TaskForm actionType="create-task" />
 			<Suspense fallback={<TaskListSkeleton />}>
-				<TaskList tasksPromise={tasksPromise} />
+				<TaskList
+					tasksPromise={tasksPromise}
+					completeTask={completeTask}
+					busy={fetcher.state !== "idle"}
+				/>
 			</Suspense>
 		</main>
 	);
@@ -68,6 +81,16 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
 			return {
 				submissionResult: submission.reply({ resetForm: true }),
 			};
+		}
+		case "complete-task": {
+			const taskId = formData.get("taskId");
+			if (typeof taskId !== "string") {
+				return new Response("Bad Request", { status: 400 });
+			}
+
+			await completeTask(taskId);
+
+			return new Response(null, { status: 204 });
 		}
 		case "update-task": {
 			return new Response("Not Implemented", { status: 501 });

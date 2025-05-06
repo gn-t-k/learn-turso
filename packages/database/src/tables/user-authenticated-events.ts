@@ -10,7 +10,7 @@ export const userAuthenticatedEvents = sqliteTable(
 			.notNull()
 			.references(() => users.id),
 		authenticatedBy: text("authenticated_by").notNull(),
-		authenticatedAt: integer({ mode: "timestamp" }).notNull(),
+		authenticatedAt: integer({ mode: "timestamp_ms" }).notNull(),
 	},
 );
 

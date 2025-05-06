@@ -1,15 +1,32 @@
-import { type FC, use } from "react";
+import { type ChangeEventHandler, type FC, use, useCallback } from "react";
 
 type TaskListProps = {
 	tasksPromise: Promise<Task[]>;
+	completeTask: (taskId: string) => Promise<void>;
+	busy: boolean;
 };
 type Task = {
 	id: string;
 	title: string;
 	completed: boolean;
 };
-export const TaskList: FC<TaskListProps> = ({ tasksPromise }) => {
+export const TaskList: FC<TaskListProps> = ({
+	tasksPromise,
+	completeTask,
+	busy,
+}) => {
 	const tasks = use(tasksPromise);
+
+	const onChange = useCallback<
+		(taskId: string) => ChangeEventHandler<HTMLInputElement>
+	>(
+		(taskId) => (event) => {
+			if (event.currentTarget.checked === true) {
+				completeTask(taskId);
+			}
+		},
+		[completeTask],
+	);
 
 	return (
 		<ul>
@@ -18,7 +35,8 @@ export const TaskList: FC<TaskListProps> = ({ tasksPromise }) => {
 					<input
 						type="checkbox"
 						defaultChecked={task.completed}
-						onChange={(event) => console.log(event.currentTarget.checked)}
+						onChange={onChange(task.id)}
+						disabled={busy}
 					/>
 					{task.title}
 				</li>

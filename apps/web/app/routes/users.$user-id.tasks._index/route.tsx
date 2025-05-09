@@ -6,6 +6,7 @@ import type { Route } from "./+types/route";
 import { completeTask } from "./modules/complete-task.server";
 import { createTask } from "./modules/create-task.server";
 import { getTasks } from "./modules/get-tasks.server";
+import { setTaskIncomplete } from "./modules/set-task-incomplete.server";
 import { TaskForm, taskFormSchema } from "./modules/task-form";
 import { TaskList, TaskListSkeleton } from "./modules/task-list";
 
@@ -24,6 +25,12 @@ const Page: FC<Route.ComponentProps> = ({ loaderData }) => {
 			{ method: "post" },
 		);
 	};
+	const setTaskIncomplete = async (taskId: string) => {
+		await fetcher.submit(
+			{ actionType: "set-task-incomplete", taskId },
+			{ method: "post" },
+		);
+	};
 
 	return (
 		<main>
@@ -33,6 +40,7 @@ const Page: FC<Route.ComponentProps> = ({ loaderData }) => {
 				<TaskList
 					tasksPromise={tasksPromise}
 					completeTask={completeTask}
+					setTaskIncomplete={setTaskIncomplete}
 					busy={fetcher.state !== "idle"}
 				/>
 			</Suspense>
@@ -89,6 +97,16 @@ export const action = async ({ request, params }: Route.ActionArgs) => {
 			}
 
 			await completeTask(taskId);
+
+			return new Response(null, { status: 204 });
+		}
+		case "set-task-incomplete": {
+			const taskId = formData.get("taskId");
+			if (typeof taskId !== "string") {
+				return new Response("Bad Request", { status: 400 });
+			}
+
+			await setTaskIncomplete(taskId);
 
 			return new Response(null, { status: 204 });
 		}

@@ -3,6 +3,7 @@ import { type ChangeEventHandler, type FC, use, useCallback } from "react";
 type TaskListProps = {
 	tasksPromise: Promise<Task[]>;
 	completeTask: (taskId: string) => Promise<void>;
+	setTaskIncomplete: (taskId: string) => Promise<void>;
 	busy: boolean;
 };
 type Task = {
@@ -13,6 +14,7 @@ type Task = {
 export const TaskList: FC<TaskListProps> = ({
 	tasksPromise,
 	completeTask,
+	setTaskIncomplete,
 	busy,
 }) => {
 	const tasks = use(tasksPromise);
@@ -23,9 +25,11 @@ export const TaskList: FC<TaskListProps> = ({
 		(taskId) => (event) => {
 			if (event.currentTarget.checked === true) {
 				completeTask(taskId);
+			} else {
+				setTaskIncomplete(taskId);
 			}
 		},
-		[completeTask],
+		[completeTask, setTaskIncomplete],
 	);
 
 	return (

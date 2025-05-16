@@ -7,10 +7,12 @@ import { dirname, join } from "node:path";
  * This function is used to resolve the absolute path of a package.
  * It is needed in projects that use Yarn PnP or are set up within a monorepo.
  */
-function getAbsolutePath(value: string) {
+type GetAbsolutePath = (value: string) => string;
+const getAbsolutePath: GetAbsolutePath = (value) => {
 	return dirname(require.resolve(join(value, "package.json")));
-}
-const config: StorybookConfig = {
+};
+
+export default {
 	stories: ["../src/**/*.stories.tsx"],
 	addons: [
 		getAbsolutePath("@storybook/addon-essentials"),
@@ -22,5 +24,4 @@ const config: StorybookConfig = {
 		name: getAbsolutePath("@storybook/react-vite"),
 		options: {},
 	},
-};
-export default config;
+} satisfies StorybookConfig;

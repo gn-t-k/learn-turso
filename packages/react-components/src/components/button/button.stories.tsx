@@ -2,16 +2,14 @@ import type { Meta, StoryObj } from "@storybook/react";
 import type { VariantProps } from "class-variance-authority";
 import { Button, type buttonVariants } from "./button";
 
-const meta = {
-	title: "Button",
+export default {
 	component: Button,
 } satisfies Meta<typeof Button>;
-export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Button>;
 type StyleVariants = VariantProps<typeof buttonVariants>;
 
-export const Default: Story = {
+export const Default = {
 	args: {
 		children: "Button",
 	},
@@ -31,4 +29,4 @@ export const Default: Story = {
 			options: ["sm", "md", "lg", "icon"] satisfies StyleVariants["size"][],
 		},
 	},
-};
+} satisfies Story;

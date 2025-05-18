@@ -8,29 +8,25 @@ import {
 	CardTitle,
 } from "./card";
 
-const meta = {
-	title: "Card",
+export default {
 	component: Card,
 } satisfies Meta<typeof Card>;
-export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Card>;
 
-export const Default: Story = {
-	render: () => {
-		return (
-			<Card>
-				<CardHeader>
-					<CardTitle>Card Title</CardTitle>
-					<CardDescription>Card Description</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<p>Card Content</p>
-				</CardContent>
-				<CardFooter>
-					<p>Card Footer</p>
-				</CardFooter>
-			</Card>
-		);
-	},
-};
+export const Default = {
+	render: () => (
+		<Card>
+			<CardHeader>
+				<CardTitle>Card Title</CardTitle>
+				<CardDescription>Card Description</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<p>Card Content</p>
+			</CardContent>
+			<CardFooter>
+				<p>Card Footer</p>
+			</CardFooter>
+		</Card>
+	),
+} satisfies Story;

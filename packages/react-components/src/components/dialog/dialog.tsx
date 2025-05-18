@@ -2,7 +2,6 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { X } from "lucide-react";
 import type { ComponentProps, FC, HTMLAttributes } from "react";
 import {
-	Button as AriaButton,
 	Dialog as AriaDialog,
 	type DialogProps as AriaDialogProps,
 	DialogTrigger as AriaDialogTrigger,
@@ -14,6 +13,7 @@ import {
 	composeRenderProps,
 } from "react-aria-components";
 import { cn } from "../../utilities/cn";
+import { Button } from "../button/button";
 
 const Dialog = AriaDialog;
 
@@ -65,7 +65,12 @@ const DialogContent: FC<DialogContentProps> = ({
 	<AriaModal
 		className={composeRenderProps(className, (className) =>
 			cn(
-				"-translate-x-1/2 -translate-y-1/2 data-[entering]:fade-in-0 data-[exiting]:fade-out-0 data-[entering]:zoom-in-95 data-[exiting]:zoom-out-95 data-[entering]:slide-in-from-left-1/2 data-[entering]:slide-in-from-top-[48%] data-[exiting]:slide-out-to-left-1/2 data-[exiting]:slide-out-to-top-[48%] fixed top-1/2 left-[50vw] z-50 w-full max-w-lg border bg-background p-6 shadow-lg duration-200 data-[entering]:animate-in data-[exiting]:animate-out data-[exiting]:duration-300 sm:rounded-lg md:w-full",
+				"-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-[50vw] z-50",
+				"w-full max-w-lg sm:rounded-lg md:w-full",
+				"border bg-background p-6 shadow-lg duration-200",
+				"data-[entering]:fade-in-0 data-[exiting]:fade-out-0",
+				"data-[entering]:zoom-in-95 data-[exiting]:zoom-out-95",
+				"data-[entering]:animate-in data-[exiting]:animate-out data-[exiting]:duration-300",
 				className,
 			),
 		)}
@@ -79,13 +84,15 @@ const DialogContent: FC<DialogContentProps> = ({
 				<>
 					{children}
 					{closeButton && (
-						<AriaButton
+						<Button
 							onPress={renderProps.close}
-							className="absolute top-4 right-4 rounded-sm opacity-70 ring-offset-background transition-opacity data-[disabled]:pointer-events-none data-[entering]:bg-accent data-[entering]:text-muted-foreground data-[hovered]:opacity-100 data-[focused]:outline-none data-[focused]:ring-2 data-[focused]:ring-ring data-[focused]:ring-offset-2"
+							size="icon"
+							variant="ghost"
+							className="absolute top-2 right-2"
 						>
 							<X className="size-4" />
 							<span className="sr-only">Close</span>
-						</AriaButton>
+						</Button>
 					)}
 				</>
 			))}
@@ -98,10 +105,7 @@ const DialogHeader: FC<HTMLAttributes<HTMLDivElement>> = ({
 	...props
 }) => (
 	<div
-		className={cn(
-			"flex flex-col space-y-1.5 text-center sm:text-left",
-			className,
-		)}
+		className={cn("grid gap-1.5 text-center sm:text-left", className)}
 		{...props}
 	/>
 );
@@ -112,7 +116,7 @@ const DialogFooter: FC<HTMLAttributes<HTMLDivElement>> = ({
 }) => (
 	<div
 		className={cn(
-			"flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+			"flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-2",
 			className,
 		)}
 		{...props}
@@ -135,10 +139,7 @@ const DialogDescription: FC<HTMLAttributes<HTMLParagraphElement>> = ({
 	...props
 }) => (
 	<p
-		className={cn(
-			"flex flex-col space-y-1.5 text-center sm:text-left",
-			className,
-		)}
+		className={cn("gird gap-1.5 text-center sm:text-left", className)}
 		{...props}
 	/>
 );

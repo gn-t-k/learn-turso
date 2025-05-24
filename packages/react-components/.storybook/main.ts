@@ -19,6 +19,7 @@ export default {
 		getAbsolutePath("@storybook/addon-onboarding"),
 		getAbsolutePath("@chromatic-com/storybook"),
 		getAbsolutePath("@storybook/experimental-addon-test"),
+		getAbsolutePath("storybook-dark-mode"),
 	],
 	framework: {
 		name: getAbsolutePath("@storybook/react-vite"),

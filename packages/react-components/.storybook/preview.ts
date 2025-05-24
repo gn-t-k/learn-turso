@@ -9,5 +9,8 @@ export default {
 				date: /Date$/i,
 			},
 		},
+		darkMode: {
+			stylePreview: true,
+		},
 	},
 } satisfies Preview;

@@ -1,6 +1,12 @@
 import { getFormProps, getInputProps, useForm } from "@conform-to/react";
 import { getValibotConstraint, parseWithValibot } from "@conform-to/valibot";
-import { Button } from "@packages/react-components";
+import {
+	Button,
+	FieldErrorMessages,
+	Input,
+	Label,
+	TextField,
+} from "@packages/react-components";
 import type { FC } from "react";
 import { Form, useActionData } from "react-router";
 import { maxLength, minLength, object, pipe, string } from "valibot";
@@ -36,31 +42,20 @@ export const TaskForm: FC<Props> = ({ actionType }) => {
 
 	return (
 		<Form method="post" {...getFormProps(form)}>
-			<div className="grid grid-cols-[auto_1fr_auto] items-center">
-				<label htmlFor={fields.title.id}>Task: </label>
-				<input {...inputProps} />
+			<TextField
+				className="grid grid-cols-[auto_1fr_auto] items-center gap-2"
+				isInvalid={(fields.title.errors ?? [])?.length > 0}
+			>
+				<Label htmlFor={fields.title.id}>Todo: </Label>
+				<Input {...inputProps} />
 				<Button type="submit" name="actionType" value={actionType}>
 					Submit
 				</Button>
-				<ErrorMessages errors={fields.title.errors} />
-			</div>
+				<FieldErrorMessages
+					errors={fields.title.errors}
+					className="col-span-3"
+				/>
+			</TextField>
 		</Form>
-	);
-};
-
-type ErrorMessagesProps = {
-	errors: string[] | undefined;
-};
-const ErrorMessages: FC<ErrorMessagesProps> = ({ errors }) => {
-	if (errors === undefined || errors.length === 0) {
-		return null;
-	}
-
-	return (
-		<ul className="col-span-3 text-red-500">
-			{errors.map((error) => (
-				<li key={error}>{error}</li>
-			))}
-		</ul>
 	);
 };

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { FieldDescription } from "../field-description/field-description";
-import { FieldError } from "../field-error/field-error";
+import { FieldErrorMessages } from "../field-error-messages/field-error-messages";
 import { Input } from "../input/input";
 import { Label } from "../label/label";
 import { TextField } from "./textfield";
@@ -22,13 +22,8 @@ export const Default: Story = {
 		<TextField {...args} className="grid gap-2">
 			<Label>Label</Label>
 			<Input />
-			<FieldDescription
-				className="text-muted-foreground text-sm"
-				slot="description"
-			>
-				Description
-			</FieldDescription>
-			<FieldError>Error message</FieldError>
+			<FieldDescription slot="description">Description</FieldDescription>
+			<FieldErrorMessages errors={[]} />
 		</TextField>
 	),
 };

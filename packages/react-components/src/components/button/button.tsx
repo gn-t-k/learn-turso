@@ -16,16 +16,16 @@ export type ButtonProps = VariantProps<typeof buttonVariants> &
 
 export const Button: FC<ButtonProps> = (props) => {
 	if (props.asChild === true) {
-		const { variant, size, className, ...rest } = props;
+		const { variant, size, className, asChild: _, ...rest } = props;
 		return (
 			<Slot
-				className={cn(buttonVariants({ variant, size, className }))}
+				className={cn(buttonVariants({ variant, size }), className)}
 				{...rest}
 			/>
 		);
 	}
 
-	const { variant, size, className, ...rest } = props;
+	const { variant, size, className, asChild: _, ...rest } = props;
 	return (
 		<AriaButton
 			className={composeRenderProps(className, (className) =>
@@ -50,14 +50,15 @@ export const buttonVariants = cva(
 		variants: {
 			variant: {
 				primary:
-					"bg-primary text-primary-foreground data-[hovered]:bg-primary/90",
+					"bg-primary text-primary-foreground data-[hovered]:bg-primary/90 hover::bg-primary/90",
 				destructive:
-					"bg-destructive text-destructive-foreground data-[hovered]:bg-destructive/90",
+					"bg-destructive text-destructive-foreground data-[hovered]:bg-destructive/70 hover::bg-destructive/70",
 				outline:
-					"border border-input bg-background data-[hovered]:bg-accent data-[hovered]:text-accent-foreground",
+					"border border-input bg-background data-[hovered]:bg-accent hover:bg-accent data-[hovered]:text-accent-foreground hover:text-accent-foreground",
 				secondary:
-					"bg-secondary text-secondary-foreground data-[hovered]:bg-secondary/60",
-				ghost: "data-[hovered]:bg-accent data-[hovered]:text-accent-foreground",
+					"bg-secondary text-secondary-foreground data-[hovered]:bg-secondary/60 hover:bg-secondary/60",
+				ghost:
+					"data-[hovered]:bg-accent hover:bg-accent data-[hovered]:text-accent-foreground hover:text-accent-foreground",
 			},
 			size: {
 				sm: "h-9 rounded-md px-3",

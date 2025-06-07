@@ -33,7 +33,7 @@ const Page: FC<Route.ComponentProps> = ({ loaderData }) => {
 	};
 
 	return (
-		<main>
+		<main className="grid content-start gap-4 p-2">
 			<h1>Tasks</h1>
 			<TaskForm actionType="create-task" />
 			<Suspense fallback={<TaskListSkeleton />}>

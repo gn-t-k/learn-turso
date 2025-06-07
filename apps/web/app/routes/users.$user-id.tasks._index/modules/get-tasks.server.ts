@@ -1,4 +1,4 @@
-import { database, eq, tables } from "@packages/database";
+import { and, database, eq, tables } from "@packages/database";
 import { ErrorFactory } from "@praha/error-factory";
 
 export type GetTasksError = UserNotFoundError;
@@ -29,7 +29,9 @@ export const getTasks: GetTasks = async (ownerId) => {
 			completed: tables.tasks.completed,
 		})
 		.from(tables.tasks)
-		.where(eq(tables.tasks.ownerId, ownerId));
+		.where(
+			and(eq(tables.tasks.ownerId, ownerId), eq(tables.tasks.completed, false)),
+		);
 
 	return tasks;
 };
